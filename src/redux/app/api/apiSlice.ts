@@ -1,15 +1,10 @@
-import {
-	BaseQueryApi,
-	FetchArgs,
-	createApi,
-	fetchBaseQuery,
-} from '@reduxjs/toolkit/query/react';
+import { BaseQueryApi, FetchArgs, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 /* This code is creating a `baseQuery` function that can be used to make API requests. It is using the
 `fetchBaseQuery` function from the `@reduxjs/toolkit/query/react` library to create this function. */
 const baseQuery = fetchBaseQuery({
 	baseUrl: import.meta.env.VITE_API_BASE_URL,
-	prepareHeaders: (headers, {}) => {
+	prepareHeaders: (headers) => {
 		headers.set('x-api-key', import.meta.env.VITE_APP_API_KEY);
 		return headers;
 	},
@@ -28,13 +23,8 @@ const baseQuery = fetchBaseQuery({
  * `baseQuery` function.
  */
 
-const baseQueryWithReauth = async (
-	args: string | FetchArgs,
-	api: BaseQueryApi,
-	extraOptions: Record<string, unknown> | undefined
-) => {
-	let result = await baseQuery(args, api, (extraOptions = {}));
-	return result;
+const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi) => {
+	return await baseQuery(args, api, {});
 };
 
 /* This code is creating an instance of the `createApi` function from the
