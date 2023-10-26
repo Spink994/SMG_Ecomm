@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: 'Beautiste';
+	src: url('./assets/fonts/Beausite_Classic_Regular.ttf');
+}
+
+html,
+body {
+	font-family: theme('fontFamily.Beautiste');
+	overscroll-behavior: none;
+	scroll-behavior: smooth;
+}
+
+.app-height {
+	height: 100vh; /* Use vh as a fallback for browsers that do not support Custom Properties */
+	height: calc(var(--vh, 1vh) * 100);
+}
+
+.hero_products_transition {
+	animation: 5.3s linear 0s alternate fade;
+}
+
+@keyframes fade {
+	0% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
