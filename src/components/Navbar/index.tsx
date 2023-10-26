@@ -21,6 +21,16 @@ export default function Navbar() {
 					{/* Other links */}
 					<div className='flex items-center gap-6'>
 						<Link
+							title='Shopping Cart'
+							className='relative text-sm text-zinc-900'
+							to={appRoutes.cart}
+						>
+							<FiShoppingCart className='text-[20px]' />
+							<div className='absolute -left-5 -top-4 flex h-4 w-4 items-center justify-center rounded-full bg-zinc-900 !p-3 text-xs text-white'>
+								<span>{numberOfItemsInCart}</span>
+							</div>
+						</Link>
+						<Link
 							title='Products'
 							className='text-sm text-zinc-900'
 							to={appRoutes.products}
@@ -33,16 +43,6 @@ export default function Navbar() {
 							to={appRoutes.dashboard}
 						>
 							<FiUser className='text-[20px]' />
-						</Link>
-						<Link
-							title='Shopping Cart'
-							className='relative text-sm text-zinc-900'
-							to={appRoutes.cart}
-						>
-							<FiShoppingCart className='text-[20px]' />
-							<div className='absolute -right-5 -top-3 flex h-4 w-4 items-center justify-center rounded-full bg-zinc-900 p-3 text-xs text-white'>
-								<span>{numberOfItemsInCart}</span>
-							</div>
 						</Link>
 					</div>
 				</div>

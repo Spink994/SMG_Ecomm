@@ -5,8 +5,10 @@ export default function Footer() {
 	return (
 		<section className='py-24'>
 			<ContentWrapper>
-				<p className='text-center text-7xl font-bold'>Not satisfied with what we have?</p>
-				<p className='text-center text-xl text-zinc-500'>Please, leave here immediately!</p>
+				<p className='text-center text-3xl font-bold md:text-7xl'>
+					Not satisfied with what we have?
+				</p>
+				<p className='text-center sm:text-xl text-zinc-500'>Please, leave here immediately!</p>
 
 				<div className='mt-4 flex w-full justify-center'>
 					<Button

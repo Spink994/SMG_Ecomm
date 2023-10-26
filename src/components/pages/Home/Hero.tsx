@@ -60,7 +60,7 @@ export default function Hero() {
 							<img
 								src={IMAGE_DATA[imageIndex].imageUrl}
 								alt='shoe'
-								className={`h-full mix-blend-multiply transition-opacity duration-300 ${
+								className={`max-h-full mix-blend-multiply transition-opacity duration-300 [@media(min-width:1170px)]:h-auto ${
 									animationState === 'fadein' ? 'opacity-100' : 'opacity-0'
 								}`}
 							/>
