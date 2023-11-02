@@ -29,6 +29,6 @@
 			"pages": ["./src/pages/*"]
 		}
 	},
-	"include": ["src", "cypress/**/*", "tailwind.config.js", "webpack.config.js"],
+	"include": ["src", "cypress/**/*", "tailwind.config.js", "webpack.config.js", "src/service-worker.js"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }

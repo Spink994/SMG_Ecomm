@@ -3,6 +3,7 @@ import type { InlineConfig } from 'vitest';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
+import { VitePWA } from 'vite-plugin-pwa';
 
 // I had to create my own type and extend defineCOnfig before i could inpue test: in the configuration - https://stackoverflow.com/questions/72146352/vitest-defineconfig-test-does-not-exist-in-type-userconfigexport
 

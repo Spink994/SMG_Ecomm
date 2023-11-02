@@ -6,17 +6,13 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
-import checkForServiceWorkerUpdate from './checkForServiceWorkerUpdate';
-import registerServiceWorker from './registerServiceWorker';
+
+import * as ServiceWorker from './registerServiceWorker';
 
 function RootApp() {
-	// change this when testing in dev
-	const isProduction = process.env.NODE_ENV === 'production';
-
 	React.useEffect(() => {
-		if (!isProduction) return;
-		checkForServiceWorkerUpdate();
-		registerServiceWorker();
+		// Registering the service worker
+		ServiceWorker.register();
 	}, []);
 
 	return (

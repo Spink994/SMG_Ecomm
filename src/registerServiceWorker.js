@@ -1,4 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable func-names */
+/* eslint-disable no-use-before-define */
+/* eslint-disable prefer-arrow-callback */
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
@@ -19,7 +21,7 @@ const isLocalhost = Boolean(
 		window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
 );
 
-export function register(config?: any) {
+export function register(config) {
 	if (import.meta.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
 		// The URL constructor is available in all browsers that support SW.
 		const publicUrl = new URL(import.meta.env.PUBLIC_URL, window.location.href);
@@ -31,7 +33,7 @@ export function register(config?: any) {
 		}
 
 		window.addEventListener('load', () => {
-			const swUrl = `${import.meta.env.PUBLIC_URL}/service-worker.js`;
+			const swUrl = './service-worker.js';
 
 			if (isLocalhost) {
 				// This is running on localhost. Let's check if a service worker still exists or not.
@@ -53,13 +55,7 @@ export function register(config?: any) {
 	}
 }
 
-function registerValidSW(
-	swUrl: string | URL,
-	config: {
-		onUpdate: (arg0: ServiceWorkerRegistration) => void;
-		onSuccess: (arg0: ServiceWorkerRegistration) => void;
-	}
-) {
+function registerValidSW(swUrl, config) {
 	navigator.serviceWorker
 		.register(swUrl)
 		.then((registration) => {
@@ -103,7 +99,7 @@ function registerValidSW(
 		});
 }
 
-function checkValidServiceWorker(swUrl: URL | RequestInfo, config: any) {
+function checkValidServiceWorker(swUrl, config) {
 	// Check if the service worker can be found. If it can't reload the page.
 	fetch(swUrl, {
 		headers: { 'Service-Worker': 'script' },
@@ -123,7 +119,7 @@ function checkValidServiceWorker(swUrl: URL | RequestInfo, config: any) {
 				});
 			} else {
 				// Service worker found. Proceed as normal.
-				registerValidSW(swUrl as string, config);
+				registerValidSW(swUrl, config);
 			}
 		})
 		.catch(() => {
@@ -143,7 +139,7 @@ export function unregister() {
 	}
 }
 
-export let deferredPrompt: Event;
+export let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
 	e.preventDefault();

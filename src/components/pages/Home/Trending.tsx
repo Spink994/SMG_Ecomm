@@ -29,7 +29,6 @@ export default function Trending() {
 										: false
 								}
 								onClick={() => dispatch(addToCart({ ...productt, quantity: 1 }))}
-								noButton
 								key={productt.id + index}
 								imageSrc={productt.images[0].url}
 								productDescription={productt.name}
