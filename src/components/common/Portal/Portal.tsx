@@ -1,21 +1,21 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import { GrFormClose } from "react-icons/gr";
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { GrFormClose } from 'react-icons/gr';
 
 export default function Portal() {
-	const portalElement = document.createElement("div");
-	portalElement.id = "root-portal-2";
+	const portalElement = document.createElement('div');
+	portalElement.id = 'root-portal-2';
 	portalElement.className =
-		"fixed z-[50000000] w-screen h-screen bg-white/30 translate-x-[200vw] top-0 transition-all duration-[800]";
+		'fixed z-[50000000] w-screen h-screen bg-white/30 translate-x-[200vw] top-0 transition-all duration-[800]';
 
 	/**
 	 * This function removes and destroys the modal once it is initiated
 	 */
 	function removeChild() {
-		portalElement.classList.remove("translate-x-0");
-		portalElement.classList.add("translate-x-[200vw]");
+		portalElement.classList.remove('translate-x-0');
+		portalElement.classList.add('translate-x-[200vw]');
 
-		document.body.querySelector("#root-portal-2")?.remove();
+		document.body.querySelector('#root-portal-2')?.remove();
 	}
 
 	/**
@@ -23,7 +23,7 @@ export default function Portal() {
 	 */
 	portalElement.onclick = (e) => {
 		const { target } = e;
-		if (target instanceof HTMLDivElement && target.id === "root-portal-2")
+		if (target instanceof HTMLDivElement && target.id === 'root-portal-2')
 			removeChild();
 		else return;
 	};
@@ -32,8 +32,8 @@ export default function Portal() {
 	 * This function animates the modal once it is initiated
 	 */
 	function showChild() {
-		portalElement.classList.remove("translate-x-[200vw]");
-		portalElement.classList.add("translate-x-0");
+		portalElement.classList.remove('translate-x-[200vw]');
+		portalElement.classList.add('translate-x-0');
 	}
 
 	const root = createRoot(portalElement);

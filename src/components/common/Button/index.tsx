@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FC, ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	children: ReactNode;
@@ -7,31 +7,26 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	size?: string;
 }
 
-const Button: FC<ButtonProps> = ({
+export default function Button({
 	children,
-	className = "",
-	variant = "primary",
-	size = "md",
+	className = '',
+	variant = 'primary',
+	size = 'md',
 	...rest
-}) => {
+}: ButtonProps) {
 	const variants: Record<string, string> = {
-		primary: "bg-primary-#003C3B text-primary-#EBFAFA",
-		light: "bg-gray-#F6FAFD text-primary-#001514",
+		primary: 'bg-primary-#003C3B text-primary-#EBFAFA',
+		light: 'bg-gray-#F6FAFD text-primary-#001514',
 	};
 
 	const sizes: Record<string, string> = {
-		lg: "py-4 px-5 text-base rounded-xl",
-		md: "py-3 px-3 text-sm rounded-lg",
+		lg: 'py-4 px-5 text-base rounded-xl',
+		md: 'py-3 px-3 text-sm rounded-lg',
 	};
 
 	return (
-		<button
-			className={`${className} ${variants[variant]} ${sizes[size]}`}
-			{...rest}
-		>
+		<button className={`${className} ${variants[variant]} ${sizes[size]}`} {...rest}>
 			{children}
 		</button>
 	);
-};
-
-export default Button;
+}

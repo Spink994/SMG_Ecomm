@@ -6,19 +6,17 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
-
-import { Workbox } from 'workbox-window';
+import checkForServiceWorkerUpdate from './checkForServiceWorkerUpdate';
+import registerServiceWorker from './registerServiceWorker';
 
 function RootApp() {
 	// change this when testing in dev
 	const isProduction = process.env.NODE_ENV === 'production';
 
-	// in the App component:
 	React.useEffect(() => {
-		if (isProduction && 'serviceWorker' in navigator) {
-			const wb = new Workbox('./service-worker.js');
-			wb.register();
-		}
+		if (!isProduction) return;
+		checkForServiceWorkerUpdate();
+		registerServiceWorker();
 	}, []);
 
 	return (

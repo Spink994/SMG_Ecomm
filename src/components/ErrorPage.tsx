@@ -1,4 +1,4 @@
-export const ErrorPage = () => {
+export function ErrorPage() {
 	return (
 		<>
 			<div className="flex h-screen w-full items-center justify-center bg-black">
@@ -8,6 +8,6 @@ export const ErrorPage = () => {
 			</div>
 		</>
 	);
-};
+}
 
 export default ErrorPage;

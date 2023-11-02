@@ -28,7 +28,7 @@ export interface ProductsType {
 			id: string;
 			cashback: number;
 			discount: null;
-			reward: {};
+			reward: object;
 		}
 	];
 }

@@ -1,73 +1,68 @@
-self.importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-sw.js');
+// Define a cache name for your assets
+const cacheName = 'my-app-cache';
 
-// This will trigger the importScripts() for workbox.strategies and its dependencies
-// so that it can be used in the event handlers
-// https://developer.chrome.com/docs/workbox/modules/workbox-sw/#avoid-async-imports
-workbox.loadModule('workbox-strategies');
-workbox.loadModule('workbox-expiration');
+// List of assets to cache
+const assetsToCache = [
+	'/',
+	'/index.html',
+	'/styles.css',
+	'/script.js',
+	'/images/logo.png',
+	// Add more assets to cache as needed
+];
 
+// Install event: Cache assets during service worker installation
+self.addEventListener('install', (event) => {
+	event.waitUntil(
+		caches.open(cacheName).then((cache) => {
+			return cache.addAll(assetsToCache);
+		})
+	);
+});
+
+// Activate event: Remove outdated caches
+self.addEventListener('activate', (event) => {
+	event.waitUntil(
+		caches.keys().then((cacheNames) => {
+			return Promise.all(
+				cacheNames.map((name) => {
+					if (name !== cacheName) {
+						return caches.delete(name);
+					}
+				})
+			);
+		})
+	);
+});
+
+// Fetch event: Implement Cache First strategy
 self.addEventListener('fetch', (event) => {
-	const { request } = event;
-	const { pathname } = new URL(event.request.url);
-
-	const isPdfURL = pathname.slice(-4) === '.pdf';
-
-	if (isPdfURL) {
-		event.respondWith(
-			new workbox.strategies.CacheFirst({
-				cacheName: 'pdfs',
-				plugins: [
-					// cache indefinitely until the cache storage hits 50
-					// then replace the oldest
-					new workbox.expiration.ExpirationPlugin({
-						maxEntries: 50,
-					}),
-				],
-			}).handle({ event, request })
-		);
-	}
-
-	const createCacheFirstStrategy = ({ items, maxAgeSeconds, maxEntries }) => {
-		items.map((item) => {
-			// make it specific to your API
-			const URLIncludesItem = pathname.includes('/api/v1/') && pathname.includes(item);
-			if (URLIncludesItem) {
-				// if modify method, fetch fresh data:
-				if (event.request.method !== 'GET') {
-					caches.delete(item);
-				} else {
-					event.respondWith(
-						new workbox.strategies.CacheFirst({
-							cacheName: item,
-							plugins: [
-								// use both: time restrictions and max entries
-								new workbox.expiration.ExpirationPlugin({
-									maxAgeSeconds,
-									maxEntries,
-								}),
-							],
-						}).handle({ event, request })
-					);
-				}
+	event.respondWith(
+		caches.match(event.request).then((cachedResponse) => {
+			if (cachedResponse) {
+				return cachedResponse;
 			}
-		});
-	};
 
-	createCacheFirstStrategy({
-		items: ['segments', 'entities', 'units'],
-		maxAgeSeconds: 12 * 60 * 60, // 12 hrs
-		maxEntries: 15,
-	});
-	createCacheFirstStrategy({
-		items: ['metrics'],
-		maxAgeSeconds: 2 * 60 * 60, // 2hrs
-		maxEntries: 10,
-	});
+			// If the asset is not in the cache, fetch it from the network
+			return fetch(event.request)
+				.then((response) => {
+					// Clone the response for caching
+					const responseToCache = response.clone();
 
-	// optional: if you want to have a way to bust all caches quickly
-	if (pathname.includes('/refresh')) {
-		caches.keys().then((names) => names.map((name) => caches.delete(name)));
-	} else {
-		return;
-	}
+					// Open the cache and add the network response to it
+					caches.open(cacheName).then((cache) => {
+						cache.put(event.request, responseToCache);
+					});
+
+					return response;
+				})
+				.catch((error) => {
+					// Handle network errors here
+					console.error('Fetch error:', error);
+
+					// Optionally, you can return a custom offline response
+					// Example: return new Response('Offline Mode');
+				});
+		})
+	);
 });

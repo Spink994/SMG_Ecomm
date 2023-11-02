@@ -18,8 +18,7 @@
   "plugins": [
     "@typescript-eslint",
     "prettier",
-    "react",
-    "react-native"
+    "react"
   ],
   "rules": {
     "react/react-in-jsx-scope": 0,
@@ -65,14 +64,6 @@
         "allowSeparatedGroups": false
       }
     ],
-    "indent": [
-      [
-        "error",
-        2,
-        {
-          "SwitchCase": 1
-        }
-      ]
-    ]
+    "indent": 0
   }
 }

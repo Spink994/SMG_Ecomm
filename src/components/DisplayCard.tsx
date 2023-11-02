@@ -17,8 +17,6 @@ export default forwardRef<HTMLDivElement, DisplayCardProps>(function DisplayCard
 		altLabel,
 		productDescription,
 		productPrice,
-		noButton,
-		buttonLabel,
 		className,
 		children,
 		disableSelection,
