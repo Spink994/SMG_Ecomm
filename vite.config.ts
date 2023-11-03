@@ -19,11 +19,13 @@ const CompileTsServiceWorker = () => ({
 	name: 'compile-typescript-service-worker',
 	async writeBundle(_options, _outputBundle) {
 		const inputOptions: InputOptions = {
-			input: 'src/sw-custom.ts',
+			input: 'src/service-worker.ts',
 			plugins: [rollupPluginTypescript(), nodeResolve()],
 		};
 		const outputOptions: OutputOptions = {
-			file: 'dist/sw-custom.js',
+			dir: 'dist',
+
+			// file: 'service-worker.js',
 			format: 'es',
 		};
 		const bundle = await rollup(inputOptions);
@@ -42,7 +44,7 @@ export default defineConfig({
 			registerType: 'autoUpdate',
 			workbox: {
 				importScripts: ['./sw-functional.js'],
-				globIgnores: ['**/node_modules/**/*', '**/sw-custom.js'],
+				globIgnores: ['**/node_modules/**/*', '**/service-worker.js'],
 			},
 		}),
 
