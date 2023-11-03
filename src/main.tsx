@@ -6,13 +6,12 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
-
-import * as ServiceWorker from './registerServiceWorker';
+import { registerServiceWorker } from './registerServiceWorker';
 
 function RootApp() {
 	React.useEffect(() => {
 		// Registering the service worker
-		ServiceWorker.register();
+		registerServiceWorker();
 	}, []);
 
 	return (
