@@ -6,8 +6,6 @@ import path from 'path';
 import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// I had to create my own type and extend defineCOnfig before i could inpue test: in the configuration - https://stackoverflow.com/questions/72146352/vitest-defineconfig-test-does-not-exist-in-type-userconfigexport
-
 interface VitestConfigExport extends UserConfig {
 	test: InlineConfig;
 }
@@ -28,26 +26,28 @@ export default defineConfig({
 						urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/,
 						handler: 'CacheFirst',
 						options: {
-							cacheName: 'smg-images-cache-v2',
+							cacheableResponse: {
+								statuses: [200],
+							},
+							cacheName: 'smg-images-cache-v3',
 							expiration: {
 								maxEntries: 50,
-								maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+								maxAgeSeconds: 2 * 24 * 60 * 60, // 2 days
 							},
 						},
 					},
 
 					{
-						urlPattern:
-							/^https:\/\/(.*\.)*api\.savetobuy\.io\/svtb\/api\/v1\/lifestyle$/,
-						handler: 'CacheFirst',
+						urlPattern: /^https:\/\/(.*\.)*api\.savetobuy\.io\/svtb\/api\/v1$/,
+						handler: 'NetworkFirst',
 						options: {
-							cacheName: 'smg-api-cache-v2',
+							cacheName: 'smg-api-cache-v3',
 							cacheableResponse: {
 								statuses: [200],
 							},
 							expiration: {
 								maxEntries: 50,
-								maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+								maxAgeSeconds: 2 * 24 * 60 * 60, // 2 days
 							},
 						},
 					},
