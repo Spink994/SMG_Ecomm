@@ -6,13 +6,20 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
-import { registerServiceWorker } from './registerServiceWorker';
 
 function RootApp() {
-	React.useEffect(() => {
-		// Registering the service worker
-		registerServiceWorker();
-	}, []);
+	if ('serviceWorker' in navigator) {
+		window.addEventListener('load', () => {
+			navigator.serviceWorker
+				.register('/service-worker.js')
+				.then((registration) => {
+					console.log('Service Worker registered with scope:', registration.scope);
+				})
+				.catch((error) => {
+					console.error('Service Worker registration failed:', error);
+				});
+		});
+	}
 
 	return (
 		<React.StrictMode>
