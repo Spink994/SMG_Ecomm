@@ -29,7 +29,7 @@ export default defineConfig({
 							cacheableResponse: {
 								statuses: [200],
 							},
-							cacheName: 'smg-images-cache-v3',
+							cacheName: 'smg-images-cache-v4',
 							expiration: {
 								maxEntries: 50,
 								maxAgeSeconds: 2 * 24 * 60 * 60, // 2 days
@@ -38,10 +38,11 @@ export default defineConfig({
 					},
 
 					{
-						urlPattern: /^https:\/\/(.*\.)*api\.savetobuy\.io\/svtb\/api\/v1$/,
-						handler: 'NetworkFirst',
+						urlPattern:
+							/^https:\/\/(.*\.)*api\.savetobuy\.io\/svtb\/api\/v1\/lifestyle(\/.*)?$/,
+						handler: 'CacheFirst',
 						options: {
-							cacheName: 'smg-api-cache-v3',
+							cacheName: 'smg-api-cache-v4',
 							cacheableResponse: {
 								statuses: [200],
 							},

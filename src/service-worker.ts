@@ -33,13 +33,13 @@ self.addEventListener('install', (event) => {
 precacheAndRoute(self.__WB_MANIFEST);
 
 // Define a regular expression pattern to match your API endpoints
-const apiPattern = /^https:\/\/(.*\.)*api\.savetobuy\.io\/svtb\/api\/v1\/lifestyle$/;
+const apiPattern = /^https:\/\/(.*\.)*api\.savetobuy\.io\/svtb\/api\/v1\/lifestyle(\/.*)?$/;
 
 // Cache API responses with a CacheFirst strategy
 registerRoute(
 	apiPattern,
 	new CacheFirst({
-		cacheName: 'smg-api-cache-v2',
+		cacheName: 'smg-api-cache-v4',
 		plugins: [
 			{
 				cacheWillUpdate: async ({ response }) => {
