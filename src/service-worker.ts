@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // service-worker.ts
 import { precacheAndRoute } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { CacheFirst } from 'workbox-strategies';
 
 // Define a custom type to include the __WB_MANIFEST property
 interface CustomServiceWorkerGlobalScope extends ServiceWorkerGlobalScope {
@@ -21,7 +23,7 @@ self.addEventListener('install', (event) => {
 	];
 
 	event.waitUntil(
-		caches.open('my-ecommerce-cache').then((cache) => {
+		caches.open('smg-cache-v2').then((cache) => {
 			return cache.addAll(filesToCache);
 		})
 	);
@@ -29,3 +31,34 @@ self.addEventListener('install', (event) => {
 
 // Precache and route any assets from the Vite build output directory
 precacheAndRoute(self.__WB_MANIFEST);
+
+// Define a regular expression pattern to match your API endpoints
+const apiPattern = /^https:\/\/(.*\.)*api\.savetobuy\.io\/svtb\/api\/v1\/lifestyle$/;
+
+// Cache API responses with a CacheFirst strategy
+registerRoute(
+	apiPattern,
+	new CacheFirst({
+		cacheName: 'smg-api-cache-v2',
+		plugins: [
+			{
+				cacheWillUpdate: async ({ response }) => {
+					// Modify the response or caching behavior here
+					if (response && response.status === 200) {
+						// You can add custom headers or manipulate the response before caching
+						const modifiedResponse = new Response(response.body, {
+							status: 200,
+							statusText: 'OK',
+							headers: {
+								...response.headers,
+							},
+						});
+
+						return modifiedResponse;
+					}
+					return response;
+				},
+			},
+		],
+	})
+);

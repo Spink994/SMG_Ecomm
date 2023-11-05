@@ -6,10 +6,12 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
+import checkForServiceWorkerUpdate from './checkForServiceWorkerUpdate';
 
 function RootApp() {
 	if ('serviceWorker' in navigator) {
 		window.addEventListener('load', () => {
+			checkForServiceWorkerUpdate();
 			navigator.serviceWorker
 				.register('/service-worker.js')
 				.then((registration) => {
